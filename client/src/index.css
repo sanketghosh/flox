@@ -9,3 +9,7 @@
     @apply font-inter;
   }
 }
+
+::-webkit-scrollbar {
+  @apply -z-10 w-0;
+}

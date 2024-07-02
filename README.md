@@ -1,2 +1,5 @@
-# flox
-kanban board
+# Flox
+
+---
+
+A modern kanban board style task manager.

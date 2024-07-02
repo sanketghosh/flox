@@ -1,16 +1,27 @@
-/* packages */
+/* Packages */
 import { useState } from "react";
 
-/* local components */
+/* Local Components */
 import KanbanBoard from "./components/kanban-board";
 import { Header } from "./components";
+import AddColumnDialog from "./components/dialogs/add-column-dialog";
 import { useAddColumn } from "./hooks/use-add-column";
-import AddColumnDialog from "./components/column/add-column-dialog";
+import { generateRandomId } from "./lib/generate-id";
+import { Column } from "./types/types";
 
 export default function App() {
-  let [columnName, setColumnName] = useState<string>("");
+  const [columnName, setColumnName] = useState<string>("");
 
-  const { columns, handleAddColumn } = useAddColumn(columnName);
+  const [columns, setColumns] = useState<Column[]>([]);
+
+  const handleAddColumn = () => {
+    const columnToAdd: Column = {
+      id: generateRandomId(),
+      title: columnName,
+    };
+
+    setColumns([...columns, columnToAdd]);
+  };
 
   function onColumnNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     setColumnName(e.target.value);
@@ -18,12 +29,13 @@ export default function App() {
 
   return (
     <main>
-      <div className="mx-auto max-w-7xl space-y-3 px-3 py-3">
+      <div className="mx-auto max-w-7xl space-y-5 px-3 py-3">
         <Header />
         <AddColumnDialog
           handleAddColumn={handleAddColumn}
           onColumnNameChange={onColumnNameChange}
           columnName={columnName}
+          setColumnName={setColumnName}
         />
         <KanbanBoard columns={columns} />
       </div>
