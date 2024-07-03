@@ -1,75 +1,91 @@
 /* packages */
-import { FormEvent, useState } from "react";
-import { CirclePlusIcon } from "lucide-react";
-import { Button } from "@headlessui/react";
+import { PlusCircleIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { ColumnSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-/* local components */
-import DialogWrapper from "./dialog-wrapper";
-import DialogForm from "./dialog-form";
+/*  components */
+import DialogWrapper from "@/components/dialogs/dialog-wrapper";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Column } from "@/types/types";
+import { generateRandomId } from "@/lib/generate-id";
 
 type AddColumnDialog = {
-  handleAddColumn?: () => void;
-  onColumnNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  columnName: string;
-  setColumnName: (name: string) => void;
+  setColumns: React.Dispatch<React.SetStateAction<Column[]>>;
+  columns: Column[];
 };
 
 export default function AddColumnDialog({
-  handleAddColumn,
-  onColumnNameChange,
-  columnName,
-  setColumnName,
+  setColumns,
+  columns,
 }: AddColumnDialog) {
-  /*   */
-  let [isOpen, setIsOpen] = useState<boolean>(false);
-  let [error, setError] = useState<string | null>(null);
+  const form = useForm<z.infer<typeof ColumnSchema>>({
+    resolver: zodResolver(ColumnSchema),
+    defaultValues: {
+      columnTitle: "",
+    },
+  });
 
-  function toggleDialog() {
-    setIsOpen(!isOpen);
-    setError(null);
-  }
+  const handleFormSubmit = (values: z.infer<typeof ColumnSchema>) => {
+    const columnToAdd: Column = {
+      id: generateRandomId(),
+      title: values.columnTitle,
+    };
 
-  function submitColumnName(e: FormEvent) {
-    e.preventDefault();
-
-    if (columnName.length <= 0) {
-      setError("Enter a column name please!");
-    } else if (columnName.length > 20) {
-      setError("More than 20 characters not allowed");
-    } else {
-      setError(null);
-      if (handleAddColumn) {
-        handleAddColumn();
-      }
-      setColumnName("");
-      toggleDialog();
-    }
-  }
+    setColumns([...columns, columnToAdd]);
+  };
 
   return (
-    <div>
-      <Button
-        className="flex shrink-0 items-center gap-1 rounded-md bg-black px-3 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        onClick={toggleDialog}
-      >
-        <CirclePlusIcon size={18} />
-        Create Column
-      </Button>
-      <DialogWrapper
-        isOpen={isOpen}
-        dialogTitle="Create a new column, name it and add task to it. Yes, it's that easy."
-        toggleDialog={toggleDialog}
-      >
-        <DialogForm
-          errorMessage={error}
-          onChangeInput={onColumnNameChange}
-          buttonLabel="Add New Column"
-          formSubmitHandler={submitColumnName}
-          taskEditOrAdd={false}
-          inputPlaceholder="Enter a column name"
-          inputType="text"
-        />
-      </DialogWrapper>
-    </div>
+    <DialogWrapper
+      dialogDescription="Specifying a name for the column will help you to organize you work much more easily. It is a must."
+      dialogTitle="Add a new column"
+      dialogTriggerButton={
+        <Button className="flex items-center gap-1 font-medium" size={"sm"}>
+          <PlusCircleIcon size={19} />
+          Add New Column
+        </Button>
+      }
+    >
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleFormSubmit)}
+          className="space-y-4"
+        >
+          <div className="space-y-2">
+            <FormField
+              control={form.control}
+              name="columnTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Column Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Ongoing Project"
+                      type="text"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Add Column
+          </Button>
+        </form>
+      </Form>
+    </DialogWrapper>
   );
 }

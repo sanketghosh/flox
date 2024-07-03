@@ -1,4 +1,8 @@
-import { Menu, MenuButton, MenuItems } from "@headlessui/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type DropdownWrapperProps = {
   children: React.ReactNode;
@@ -10,16 +14,9 @@ export default function DropdownWrapper({
   menuBtn,
 }: DropdownWrapperProps) {
   return (
-    <Menu>
-      <MenuButton className="absolute right-3 top-2">{menuBtn}</MenuButton>
-
-      <MenuItems
-        transition
-        anchor="bottom end"
-        className="z-[2] mt-1 rounded-lg border bg-white p-1.5 text-sm font-medium shadow-md"
-      >
-        {children}
-      </MenuItems>
-    </Menu>
+    <DropdownMenu>
+      <DropdownMenuTrigger>{menuBtn}</DropdownMenuTrigger>
+      <DropdownMenuContent>{children}</DropdownMenuContent>
+    </DropdownMenu>
   );
 }

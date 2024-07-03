@@ -1,71 +1,113 @@
-import { PenIcon } from "lucide-react";
-import { FormEvent, useState } from "react";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import DialogWrapper from "./dialog-wrapper";
-import DialogForm from "./dialog-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { TaskSchema } from "@/schemas";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { PenIcon } from "lucide-react";
 
 export default function TaskEdit() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const form = useForm<z.infer<typeof TaskSchema>>({
+    resolver: zodResolver(TaskSchema),
+    defaultValues: {
+      taskTitle: "",
+      taskPriority: "",
+      taskDescription: "",
+    },
+  });
 
-  function toggleDialog() {
-    setIsOpen(!isOpen);
-  }
-
-  const [taskTitle, setTaskTitle] = useState<string>("");
-  const [taskDescription, setTaskDescription] = useState<string>("");
-  const [taskPriority, setTaskPriority] = useState<string>("");
-
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    setTaskDescription(e.target.value);
-  };
-
-  const handleChangeTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskTitle(e.target.value);
-  };
-
-  const handleChangeTaskPriority = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setTaskPriority(e.target.value);
-  };
-
-  const handleFormSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = (values: z.infer<typeof TaskSchema>) => {
     console.log({
-      taskTitle,
-      taskPriority,
-      taskDescription,
+      values,
     });
   };
 
   return (
-    <div>
-      <button
-        className="flex w-full items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-100"
-        onClick={toggleDialog}
-      >
-        <PenIcon size={17} />
-        Edit Task
-      </button>
-      <DialogWrapper
-        isOpen={isOpen}
-        toggleDialog={toggleDialog}
-        dialogTitle="Edit your task."
-      >
-        <DialogForm
-          onChangeInput={handleChangeTaskTitle}
-          onChangeTextarea={handleChangeDescription}
-          onChangeSelect={handleChangeTaskPriority}
-          formSubmitHandler={handleFormSubmit}
-          buttonLabel="Edit Task"
-          errorMessage={""}
-          taskEditOrAdd={true}
-          inputPlaceholder="Write changed task title."
-          inputType="text"
-          textareaPlaceholder="Write changed description of your task."
-        />
-      </DialogWrapper>
-    </div>
+    <DialogWrapper
+      dialogTitle="Edit the task"
+      dialogDescription="If you have anything to change in this task, feel free to change things."
+      dialogTriggerButton={
+        <Button className="flex items-center gap-1" variant={"ghost"}>
+          <PenIcon size={18} />
+          Add New Task
+        </Button>
+      }
+    >
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleFormSubmit)}
+          className="space-y-4"
+        >
+          <div className="space-y-2">
+            <FormField
+              control={form.control}
+              name="taskTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Task Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Fix login bug."
+                      type="text"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="taskPriority"
+              render={({ field }) => (
+                <FormItem className="flex w-full flex-col">
+                  <FormLabel className="mt-2">Task Priority</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      defaultValue={"low"}
+                      className="rounded-md border bg-transparent px-3 py-2"
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="taskDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Task Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Resolve the issues causing login failures"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button className="w-full">Add Task</Button>
+        </form>
+      </Form>
+    </DialogWrapper>
   );
 }

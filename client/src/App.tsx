@@ -5,61 +5,19 @@ import { useState } from "react";
 import KanbanBoard from "./components/kanban-board";
 import { Header } from "./components";
 import AddColumnDialog from "./components/dialogs/add-column-dialog";
-import { useAddColumn } from "./hooks/use-add-column";
 import { generateRandomId } from "./lib/generate-id";
 import { Column } from "./types/types";
 
 export default function App() {
-  const [columnName, setColumnName] = useState<string>("");
-
   const [columns, setColumns] = useState<Column[]>([]);
-
-  const handleAddColumn = () => {
-    const columnToAdd: Column = {
-      id: generateRandomId(),
-      title: columnName,
-    };
-
-    setColumns([...columns, columnToAdd]);
-  };
-
-  function onColumnNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setColumnName(e.target.value);
-  }
 
   return (
     <main>
       <div className="mx-auto max-w-7xl space-y-5 px-3 py-3">
         <Header />
-        <AddColumnDialog
-          handleAddColumn={handleAddColumn}
-          onColumnNameChange={onColumnNameChange}
-          columnName={columnName}
-          setColumnName={setColumnName}
-        />
+        <AddColumnDialog setColumns={setColumns} columns={columns} />
         <KanbanBoard columns={columns} />
       </div>
     </main>
   );
 }
-
-/* 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  html {
-    @apply font-inter;
-  }
-}
-
-::-webkit-scrollbar {
-  @apply -z-10 w-0;
-}
-
-
-
-*/
