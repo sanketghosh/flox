@@ -1,45 +1,54 @@
 import { Button, Input, Select, Textarea } from "@headlessui/react";
 import ErrorMessage from "../messages/error-message";
-import { FormEvent } from "react";
+import { FormEvent, HTMLInputTypeAttribute } from "react";
 
 type DialogFormProps = {
   onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errorMessage?: string | null;
+  onChangeTextarea?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChangeSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   formSubmitHandler: (e: FormEvent) => void;
+
   taskEditOrAdd?: boolean;
+  errorMessage?: string | null;
+
+  inputPlaceholder?: string;
+  inputType?: HTMLInputTypeAttribute;
+  textareaPlaceholder?: string;
   buttonLabel?: string;
 };
 
 export default function DialogForm({
-  errorMessage,
-  onChangeInput,
   formSubmitHandler,
+  onChangeInput,
+  onChangeSelect,
+  onChangeTextarea,
+
+  errorMessage,
   taskEditOrAdd,
+
   buttonLabel = "Button",
+  inputPlaceholder,
+  inputType,
+  textareaPlaceholder,
 }: DialogFormProps) {
   return (
     <form className="mt-4 space-y-4" onSubmit={formSubmitHandler}>
       <Input
         className="w-full rounded-md border px-2 py-1.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-black md:text-base"
-        placeholder="Completed project"
+        placeholder={inputPlaceholder}
         onChange={onChangeInput}
-        type="text"
+        type={inputType}
       />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
 
       {taskEditOrAdd && (
         <>
-          <Input
-            className="w-full rounded-md border px-2 py-1.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-black md:text-base"
-            placeholder="Completed project"
-            onChange={onChangeInput}
-            type="text"
-          />
           <Select
             name="priority"
             aria-label="Task Priority"
             className="w-full rounded-md border bg-transparent px-2 py-2"
             defaultValue={"low"}
+            onChange={onChangeSelect}
           >
             <option value="low">LOW</option>
             <option value="medium">MEDIUM</option>
@@ -47,7 +56,8 @@ export default function DialogForm({
           </Select>
           <Textarea
             className="w-full rounded-md border px-2 py-2"
-            placeholder="Add the task description briefly here."
+            placeholder={textareaPlaceholder}
+            onChange={onChangeTextarea}
           />
         </>
       )}

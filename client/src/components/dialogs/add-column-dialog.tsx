@@ -66,6 +66,8 @@ export default function AddColumnDialog({
           buttonLabel="Add New Column"
           formSubmitHandler={submitColumnName}
           taskEditOrAdd={false}
+          inputPlaceholder="Enter a column name"
+          inputType="text"
         />
       </DialogWrapper>
     </div>

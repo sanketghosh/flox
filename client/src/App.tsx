@@ -42,3 +42,24 @@ export default function App() {
     </main>
   );
 }
+
+/* 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-inter;
+  }
+}
+
+::-webkit-scrollbar {
+  @apply -z-10 w-0;
+}
+
+
+
+*/

@@ -1,8 +1,7 @@
 import { PenIcon } from "lucide-react";
-import { useState } from "react";
-
-import { Button, Dialog, DialogPanel, Input } from "@headlessui/react";
-import { cn } from "../../lib/utils";
+import { FormEvent, useState } from "react";
+import DialogWrapper from "./dialog-wrapper";
+import DialogForm from "./dialog-form";
 
 export default function TaskEdit() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,6 +10,35 @@ export default function TaskEdit() {
     setIsOpen(!isOpen);
   }
 
+  const [taskTitle, setTaskTitle] = useState<string>("");
+  const [taskDescription, setTaskDescription] = useState<string>("");
+  const [taskPriority, setTaskPriority] = useState<string>("");
+
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setTaskDescription(e.target.value);
+  };
+
+  const handleChangeTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.target.value);
+  };
+
+  const handleChangeTaskPriority = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setTaskPriority(e.target.value);
+  };
+
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log({
+      taskTitle,
+      taskPriority,
+      taskDescription,
+    });
+  };
+
   return (
     <div>
       <button
@@ -18,51 +46,26 @@ export default function TaskEdit() {
         onClick={toggleDialog}
       >
         <PenIcon size={17} />
-        Edit Column
+        Edit Task
       </button>
-      <Dialog
-        open={isOpen}
-        as="div"
-        className="relative z-10 focus:outline-none"
-        onClose={toggleDialog}
+      <DialogWrapper
+        isOpen={isOpen}
+        toggleDialog={toggleDialog}
+        dialogTitle="Edit your task."
       >
-        <div
-          className={cn(
-            "fixed inset-0 z-10 w-screen overflow-y-auto",
-            isOpen && "bg-black/60 backdrop-blur-sm",
-          )}
-        >
-          <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel
-              transition
-              className="data-[closed]:transform-[scale(95%)] w-full max-w-md rounded-xl border bg-white p-6 text-black backdrop-blur-2xl duration-300 ease-out data-[closed]:opacity-0"
-            >
-              <p className="leading-tight">
-                Add the column title, the way you want the column to be named.
-              </p>
-
-              <form
-                className="mt-4 space-y-4"
-                //   onSubmit={submitColumnName}
-              >
-                <Input
-                  className="w-full rounded-md border px-2 py-1.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-black md:text-base"
-                  placeholder="Completed project"
-                  //   onChange={onColumnNameChange}
-                  type="text"
-                />
-                {/* {error && <ErrorMessage errorMessage={error} />} */}
-                <Button
-                  className="flex w-full shrink-0 items-center justify-center gap-1 rounded-md bg-black px-3 py-2 text-center text-sm font-medium text-white shadow-sm transition-all hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:bg-black/30"
-                  type="submit"
-                >
-                  Update Column
-                </Button>
-              </form>
-            </DialogPanel>
-          </div>
-        </div>
-      </Dialog>
+        <DialogForm
+          onChangeInput={handleChangeTaskTitle}
+          onChangeTextarea={handleChangeDescription}
+          onChangeSelect={handleChangeTaskPriority}
+          formSubmitHandler={handleFormSubmit}
+          buttonLabel="Edit Task"
+          errorMessage={""}
+          taskEditOrAdd={true}
+          inputPlaceholder="Write changed task title."
+          inputType="text"
+          textareaPlaceholder="Write changed description of your task."
+        />
+      </DialogWrapper>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
-import { Button, Input, Select, Textarea } from "@headlessui/react";
+import { FormEvent, useState } from "react";
 import DialogWrapper from "./dialog-wrapper";
+import DialogForm from "./dialog-form";
 
 export default function AddNewTask() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -9,6 +9,35 @@ export default function AddNewTask() {
   function toggleDialog() {
     setIsOpen(!isOpen);
   }
+
+  const [taskTitle, setTaskTitle] = useState<string>("");
+  const [taskDescription, setTaskDescription] = useState<string>("");
+  const [taskPriority, setTaskPriority] = useState<string>("");
+
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setTaskDescription(e.target.value);
+  };
+
+  const handleChangeTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.target.value);
+  };
+
+  const handleChangeTaskPriority = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setTaskPriority(e.target.value);
+  };
+
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log({
+      taskTitle,
+      taskPriority,
+      taskDescription,
+    });
+  };
 
   return (
     <div>
@@ -24,38 +53,18 @@ export default function AddNewTask() {
         toggleDialog={toggleDialog}
         dialogTitle="How about adding a new task ? You can add task title, description and add a priority. That's it."
       >
-        <form
-          className="mt-4 w-full space-y-4"
-          //   onSubmit={submitColumnName}
-        >
-          <Input
-            className="w-full rounded-md border px-2 py-1.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-black md:text-base"
-            placeholder="Completed project"
-            //   onChange={onColumnNameChange}
-            type="text"
-          />
-          <Select
-            name="status"
-            aria-label="Project status"
-            className="w-full rounded-md border bg-transparent px-2 py-2"
-          >
-            <option value="active">Active</option>
-            <option value="paused">Paused</option>
-            <option value="delayed">Delayed</option>
-            <option value="canceled">Canceled</option>
-          </Select>
-          <Textarea
-            className="w-full rounded-md border px-2 py-2"
-            placeholder="Add the task description briefly here."
-          />
-          {/* {error && <ErrorMessage errorMessage={error} />} */}
-          <Button
-            className="flex w-full shrink-0 items-center justify-center gap-1 rounded-md bg-black px-3 py-2 text-center text-sm font-medium text-white shadow-sm transition-all hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:bg-black/30"
-            type="submit"
-          >
-            Add New Task
-          </Button>
-        </form>
+        <DialogForm
+          onChangeInput={handleChangeTaskTitle}
+          onChangeTextarea={handleChangeDescription}
+          onChangeSelect={handleChangeTaskPriority}
+          formSubmitHandler={handleFormSubmit}
+          buttonLabel="Add New Task"
+          errorMessage={""}
+          taskEditOrAdd={true}
+          inputPlaceholder="Write your task's title"
+          inputType="text"
+          textareaPlaceholder="Explain shortly about your task."
+        />
       </DialogWrapper>
     </div>
   );
