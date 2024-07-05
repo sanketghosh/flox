@@ -1,28 +1,53 @@
-import { Button } from "@/components/ui/button";
-import { SailboatIcon } from "lucide-react";
+/* PACKAGES */
+import { MoveRightIcon, SailboatIcon } from "lucide-react";
+import { useState } from "react";
+
+/* COMPONENTS */
+import LoginForm from "@/components/auth/login-form";
+import RegisterForm from "@/components/auth/register-form";
 
 export default function Landing() {
-  return (
-    <main className="h-screen min-h-screen">
-      <div className="mx-auto flex h-full max-w-7xl flex-col items-center justify-center space-y-5 px-5 py-4">
-        <SailboatIcon size={250} className="text-blue-700" />
-        <div className="mx-auto max-w-5xl">
-          <h1 className="text-center text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
-            Ditch the Drowning, Embrace the Flow, Streamline Productivity.
-          </h1>
-          <p className="mt-5 text-center text-base text-muted-foreground md:text-lg">
-            Flox is a task management system which helps you to visualize your
-            tasks, issues, boost efficiency, and keep campaigns on track. Watch
-            your ideas move from brainstorm to brilliant execution.
-          </p>
-        </div>
+  const [loginCard, setLoginCard] = useState<boolean>(true);
 
-        <button className="group/button relative inline-flex items-center justify-center overflow-hidden rounded-md bg-blue-700 px-6 py-2 font-normal text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30">
-          <span className="text-lg font-semibold">Get Started</span>
-          <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-13deg)_translateX(100%)]">
-            <div className="relative h-full w-8 bg-white/20" />
+  const handleToggleAuthForm = () => {
+    setLoginCard(!loginCard);
+  };
+
+  return (
+    <main className="h-full w-full">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-12 px-5 py-8 lg:flex-row">
+        <div className="flex flex-col space-y-3 sm:max-w-xl sm:items-center sm:text-center md:max-w-2xl lg:max-w-full lg:flex-1 lg:items-start lg:text-left">
+          <div className="flex items-center gap-1">
+            <SailboatIcon className="size-9" />
+            <p className="text-4xl font-semibold">Flox</p>
           </div>
-        </button>
+          <h1 className="text-3xl font-semibold capitalize md:text-4xl lg:text-5xl">
+            Collaborate, manage, create in the rapidest way possible.
+          </h1>
+          <p className="text-base text-muted-foreground md:text-lg">
+            Flox is modern kanban style application for project and task
+            management. It makes collaboration and management with your
+            teammates much faster and easier.
+          </p>
+          <div className="flex w-fit select-none items-center gap-1 rounded-full bg-foreground px-5 py-1 text-sm font-medium text-background">
+            <p>It's easy to get started</p>
+            <MoveRightIcon size={18} />
+          </div>
+        </div>
+        <div className="lg:flex-1">
+          {loginCard && (
+            <LoginForm
+              isLoginCard={loginCard}
+              toggleAuthCard={handleToggleAuthForm}
+            />
+          )}
+          {!loginCard && (
+            <RegisterForm
+              isLoginCard={loginCard}
+              toggleAuthCard={handleToggleAuthForm}
+            />
+          )}
+        </div>
       </div>
     </main>
   );

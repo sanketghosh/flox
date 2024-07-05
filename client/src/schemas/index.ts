@@ -30,3 +30,35 @@ export const TaskSchema = z.object({
     message: "At least a description of 6 characters.",
   }),
 });
+
+// register schema
+export const RegisterSchema = z
+  .object({
+    firstName: z.string().min(1, {
+      message: "One character must for first name",
+    }),
+    lastName: z.string().min(2, {
+      message: "Two characters must for last name",
+    }),
+    email: z.string().email({
+      message: "A valid email is required.",
+    }),
+    password: z
+      .string()
+      .min(6, { message: "Password of at least 6 characters needed." }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password did not match",
+    path: ["confirmPassword"],
+  });
+
+//  login schema
+export const LoginSchema = z.object({
+  email: z.string().email({
+    message: "A valid email is required.",
+  }),
+  password: z.string().min(6, {
+    message: "Your password does not contain 6 characters.",
+  }),
+});
