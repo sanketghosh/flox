@@ -1,7 +1,15 @@
+/* PACKAGES  */
+import { useForm } from "react-hook-form";
+import { SquarePenIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import DialogWrapper from "./dialog-wrapper";
+/* LOCALS */
+import useEditTaskModal from "@/hooks/use-edit-task-modal";
+import { TaskSchema } from "@/schemas";
+
+/* COMPONENTS  */
+import DialogWrapper from "@/components/dialogs/dialog-wrapper";
 import {
   Form,
   FormControl,
@@ -10,12 +18,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { TaskSchema } from "@/schemas";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import { PenIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export default function TaskEdit() {
   const form = useForm<z.infer<typeof TaskSchema>>({
@@ -33,81 +38,92 @@ export default function TaskEdit() {
     });
   };
 
-  return (
-    <DialogWrapper
-      dialogTitle="Edit the task"
-      dialogDescription="If you have anything to change in this task, feel free to change things."
-      dialogTriggerButton={
-        <Button className="flex items-center gap-1" variant={"ghost"}>
-          <PenIcon size={18} />
-          Add New Task
-        </Button>
-      }
-    >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleFormSubmit)}
-          className="space-y-4"
-        >
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="taskTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Task Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Fix login bug."
-                      type="text"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="taskPriority"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="mt-2">Task Priority</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      defaultValue={"low"}
-                      className="rounded-md border bg-transparent px-3 py-2"
-                    >
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                    </select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+  const taskEditModal = useEditTaskModal();
 
-            <FormField
-              control={form.control}
-              name="taskDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Task Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Resolve the issues causing login failures"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button className="w-full">Add Task</Button>
-        </form>
-      </Form>
-    </DialogWrapper>
+  return (
+    <>
+      <Button
+        onClick={taskEditModal.onOpen}
+        variant={"ghost"}
+        size={"sm"}
+        type="button"
+        className="flex w-full items-center gap-1"
+      >
+        <SquarePenIcon size={18} />
+        Edit This Task
+      </Button>
+
+      <DialogWrapper
+        dialogTitle="Edit the task"
+        dialogDescription="If you have anything to change in this task, feel free to change things."
+        isModalOpen={taskEditModal.isOpen}
+        onModalClose={taskEditModal.onClose}
+      >
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleFormSubmit)}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="taskTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Task Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="Fix login bug."
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="taskPriority"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="mt-2">Task Priority</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        defaultValue={"low"}
+                        className="rounded-md border bg-transparent px-3 py-2"
+                      >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="taskDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Task Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="Resolve the issues causing login failures"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button className="w-full">Save Task</Button>
+          </form>
+        </Form>
+      </DialogWrapper>
+    </>
   );
 }

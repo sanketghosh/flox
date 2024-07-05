@@ -1,11 +1,13 @@
-import {
-  CalendarIcon,
-  MoreHorizontalIcon,
-  MoreVerticalIcon,
-} from "lucide-react";
-import { Priority } from "../types/types";
-import { cn } from "../lib/utils";
-import TaskCardDropdown from "./dropdowns/task-card-dropdown";
+/* PACKAGES */
+import { CalendarIcon } from "lucide-react";
+
+/* LOCALS */
+import { Priority } from "@/types/types";
+import { cn } from "@/lib/utils";
+
+/* COMPONENTS */
+import TaskCardDropdown from "@/components/dropdowns/task-card-dropdown";
+import { Card } from "@/components/ui/card";
 
 type TaskCardProps = {
   id: string;
@@ -22,11 +24,13 @@ export default function TaskCard({
   priority,
 }: TaskCardProps) {
   return (
-    <div className="relative cursor-grabbing rounded-md border bg-white p-3 shadow-md">
+    <Card className="relative cursor-grabbing bg-background p-3 shadow-md">
       <TaskCardDropdown />
 
-      <h2 className="line-clamp-1 font-medium">{title}</h2>
-      <p className="line-clamp-1 text-sm text-black/70">{description}</p>
+      <h2 className="line-clamp-1 font-medium text-foreground">{title}</h2>
+      <p className="line-clamp-1 text-sm text-muted-foreground">
+        {description}
+      </p>
       <div className="mt-4 flex items-center justify-between text-sm">
         <div className="flex items-center gap-1 font-medium">
           <CalendarIcon size={17} />
@@ -34,7 +38,7 @@ export default function TaskCard({
         </div>
         <p
           className={cn(
-            "rounded-xl px-3 py-0.5 text-xs font-semibold uppercase",
+            "rounded-full px-3 py-0.5 text-xs font-semibold uppercase",
             priority === "high" &&
               "border border-red-700 bg-red-400/40 text-red-700",
             priority === "medium" &&
@@ -46,6 +50,6 @@ export default function TaskCard({
           {priority}
         </p>
       </div>
-    </div>
+    </Card>
   );
 }

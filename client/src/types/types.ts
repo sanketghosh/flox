@@ -14,3 +14,5 @@ export type Card = {
   date: string;
   priority: Priority;
 };
+
+export type DropdownBtn = "normal" | "danger";

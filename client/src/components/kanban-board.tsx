@@ -1,6 +1,8 @@
-/* local components */
-import { Column } from "../types/types";
-import ColumnContainer from "./column/column-container";
+/* LOCALS */
+import { Column } from "@/types/types";
+
+/* COMPONENTS */
+import ColumnContainer from "@/components/column/column-container";
 
 type KanbanBoardProps = {
   columns: Column[];

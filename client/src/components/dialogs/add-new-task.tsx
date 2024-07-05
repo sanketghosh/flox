@@ -3,9 +3,12 @@ import { PlusIcon } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { TaskSchema } from "@/schemas";
 
-// components
+/* LOCALS */
+import { TaskSchema } from "@/schemas";
+import useAddNewTaskModal from "@/hooks/use-add-new-task-modal";
+
+/* COMPONENTS */
 import DialogWrapper from "@/components/dialogs/dialog-wrapper";
 import {
   Form,
@@ -35,81 +38,91 @@ export default function AddNewTask() {
     });
   };
 
-  return (
-    <DialogWrapper
-      dialogTitle="Add a task title"
-      dialogDescription="A task title, select a suitable priority for your task and add a small description, that's it."
-      dialogTriggerButton={
-        <Button className="flex items-center gap-1" variant={"ghost"}>
-          <PlusIcon size={18} />
-          Add New Task
-        </Button>
-      }
-    >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleFormSubmit)}
-          className="space-y-4"
-        >
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="taskTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Task Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Fix login bug."
-                      type="text"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="taskPriority"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="mt-2">Task Priority</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      defaultValue={"low"}
-                      className="rounded-md border bg-transparent px-3 py-2"
-                    >
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                    </select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+  const addNewTaskModal = useAddNewTaskModal();
 
-            <FormField
-              control={form.control}
-              name="taskDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Task Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Resolve the issues causing login failures"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button className="w-full">Add Task</Button>
-        </form>
-      </Form>
-    </DialogWrapper>
+  return (
+    <>
+      <Button
+        onClick={addNewTaskModal.onOpen}
+        variant={"ghost"}
+        size={"sm"}
+        type="button"
+        className="flex w-full items-center gap-1"
+      >
+        <PlusIcon size={18} />
+        Add New Task
+      </Button>
+      <DialogWrapper
+        isModalOpen={addNewTaskModal.isOpen}
+        onModalClose={addNewTaskModal.onClose}
+        dialogTitle="Add a task title"
+        dialogDescription="A task title, select a suitable priority for your task and add a small description, that's it."
+      >
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleFormSubmit)}
+            className="space-y-4"
+          >
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="taskTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Task Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="Fix login bug."
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="taskPriority"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="mt-2">Task Priority</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        defaultValue={"low"}
+                        className="rounded-md border bg-transparent px-3 py-2"
+                      >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="taskDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Task Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="Resolve the issues causing login failures"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button className="w-full">Add Task</Button>
+          </form>
+        </Form>
+      </DialogWrapper>
+    </>
   );
 }

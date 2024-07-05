@@ -1,12 +1,29 @@
-/* Packages */
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Landing, Kanban } from "./pages";
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/kanban/:id" element={<Kanban />} />
+      </Routes>
+    </Router>
+  );
+}
+
+/* 
+
+// PACKAGES 
 import { useState } from "react";
 
-/* Local Components */
-import KanbanBoard from "./components/kanban-board";
-import { Header } from "./components";
-import AddColumnDialog from "./components/dialogs/add-column-dialog";
-import { generateRandomId } from "./lib/generate-id";
-import { Column } from "./types/types";
+// LOCALS 
+import { Column } from "@/types/types";
+
+// COMPONENTS *
+import KanbanBoard from "@/components/kanban-board";
+import { Header } from "@/components";
+import AddColumnDialog from "@/components/dialogs/add-column-dialog";
 
 export default function App() {
   const [columns, setColumns] = useState<Column[]>([]);
@@ -21,3 +38,4 @@ export default function App() {
     </main>
   );
 }
+ */

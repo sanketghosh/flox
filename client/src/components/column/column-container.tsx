@@ -1,13 +1,14 @@
-/* packages */
+/* PACKAGES */
 import { GripIcon } from "lucide-react";
 
-/* local components */
-import { Column } from "../../types/types";
-import ColumnDropdownMenu from "../dropdowns/column-dropdown-menu";
+/* LOCALS  */
+import { Column } from "@/types/types";
 import { generateFakeCardData } from "../../data/fake-card-data";
-import TaskCard from "../task-card";
+
+/* COMPONENTS */
+import ColumnDropdownMenu from "@/components/dropdowns/column-dropdown-menu";
+import TaskCard from "@/components/task-card";
 import { Card } from "@/components/ui/card";
-import { ScrollArea } from "../ui/scroll-area";
 
 type ColumnContainerProps = {
   column: Column;
@@ -19,9 +20,9 @@ export default function ColumnContainer({ column }: ColumnContainerProps) {
   const data = generateFakeCardData();
 
   return (
-    <Card className="relative max-h-[75vh] w-[350px] overflow-y-auto rounded-md border-2 bg-gray-50/80">
+    <Card className="relative max-h-[75vh] w-[350px] overflow-y-auto rounded-md border-2 bg-secondary/85">
       {/* top container  */}
-      <div className="sticky top-0 z-[1] flex w-full cursor-grabbing items-center justify-between rounded-t-md border-b-2 bg-white px-2 py-2">
+      <div className="sticky top-0 z-[1] flex w-full cursor-grabbing items-center justify-between rounded-t-md border-b-2 bg-background px-4 py-2">
         <div className="flex items-center gap-2">
           <GripIcon size={22} />
           <h1 className="line-clamp-1 font-medium">{title}</h1>
@@ -30,7 +31,7 @@ export default function ColumnContainer({ column }: ColumnContainerProps) {
       </div>
 
       {/* container  */}
-      <div className="flex flex-grow select-none flex-col gap-3 overflow-x-hidden px-3 py-4">
+      <div className="flex flex-grow select-none flex-col gap-3 overflow-x-hidden px-2 py-4">
         {data.map((i) => (
           <TaskCard
             key={i.id}
@@ -44,7 +45,7 @@ export default function ColumnContainer({ column }: ColumnContainerProps) {
       </div>
 
       {/* footer */}
-      <div className="sticky bottom-0 z-[1] flex w-full items-center justify-between rounded-b-md border-t-2 bg-white px-2 py-2">
+      <div className="sticky bottom-0 z-[1] flex w-full items-center justify-between rounded-b-md border-t-2 bg-background px-4 py-2">
         <h1>Footer</h1>
       </div>
     </Card>

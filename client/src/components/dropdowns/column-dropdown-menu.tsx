@@ -1,27 +1,42 @@
-/* packages */
-import { EllipsisVerticalIcon, TrashIcon } from "lucide-react";
-import { MenuItem } from "@headlessui/react";
+/* PACKAGES */
+import { EllipsisIcon, Trash2Icon } from "lucide-react";
 
-/*  */
+/* COMPONENTS */
+import DropdownWrapper from "@/components/dropdowns/dropdown-wrapper";
+import { Button } from "@/components/ui/button";
+import AddNewTask from "@/components/dialogs/add-new-task";
 import EditColumn from "../dialogs/edit-column";
-import AddNewTask from "../dialogs/add-new-task";
-import DropdownWrapper from "./dropdown-wrapper";
 
 export default function ColumnDropdownMenu() {
-  return (
-    <DropdownWrapper menuBtn={<EllipsisVerticalIcon size={18} />}>
-      <MenuItem>
-        <AddNewTask />
-      </MenuItem>
-      <MenuItem>
-        <EditColumn />
-      </MenuItem>
-      <MenuItem>
-        <button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-red-600 hover:bg-red-100/60">
-          <TrashIcon size={17} />
+  const COLUMN_DROPDOWN = [
+    {
+      item: <AddNewTask />,
+    },
+    {
+      item: <EditColumn />,
+    },
+    {
+      item: (
+        <Button
+          className="flex w-full items-center gap-1 bg-red-200/60 text-red-700 hover:bg-red-200 hover:text-red-700"
+          size={"sm"}
+          variant={"ghost"}
+        >
+          <Trash2Icon size={18} />
           Delete Column
-        </button>
-      </MenuItem>
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <DropdownWrapper
+      menuBtn={<EllipsisIcon size={18} />}
+      dropdownContentClassNames="space-y-1 absolute -right-1"
+    >
+      {COLUMN_DROPDOWN.map((item, idx) => (
+        <div key={idx}>{item.item}</div>
+      ))}
     </DropdownWrapper>
   );
 }

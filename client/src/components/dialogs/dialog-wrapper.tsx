@@ -1,29 +1,33 @@
+/* COMPONENTS */
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 
 type DialogWrapperProps = {
   dialogTitle?: string;
   dialogDescription?: string;
   children: React.ReactNode;
-  dialogTriggerButton?: React.ReactElement;
+
+  isModalOpen?: boolean;
+  onModalClose: () => void;
 };
 
 export default function DialogWrapper({
   children,
   dialogTitle,
   dialogDescription,
-  dialogTriggerButton,
+
+  isModalOpen,
+  onModalClose,
 }: DialogWrapperProps) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>{dialogTriggerButton}</DialogTrigger>
-      <DialogContent>
+    <Dialog open={isModalOpen}>
+      <DialogContent closeDialog={onModalClose}>
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogDescription>{dialogDescription}</DialogDescription>

@@ -1,3 +1,7 @@
+/* LOCALS */
+import { cn } from "@/lib/utils";
+
+/* COMPONENTS */
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,16 +11,24 @@ import {
 type DropdownWrapperProps = {
   children: React.ReactNode;
   menuBtn: React.ReactElement;
+  dropdownTriggerClassNames?: string;
+  dropdownContentClassNames?: string;
 };
 
 export default function DropdownWrapper({
   children,
   menuBtn,
+  dropdownTriggerClassNames,
+  dropdownContentClassNames,
 }: DropdownWrapperProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>{menuBtn}</DropdownMenuTrigger>
-      <DropdownMenuContent>{children}</DropdownMenuContent>
+      <DropdownMenuTrigger className={cn("", dropdownTriggerClassNames)}>
+        {menuBtn}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className={cn("", dropdownContentClassNames)}>
+        {children}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 }
