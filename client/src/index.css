@@ -73,6 +73,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-instrument_mono;
+    @apply bg-background font-instrument_mono text-foreground selection:bg-foreground selection:text-background;
   }
 }

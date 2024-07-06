@@ -55,10 +55,11 @@ export default function AddColumnDialog({
       <Button
         className="flex items-center gap-1 font-medium"
         size={"sm"}
+        variant={"secondary"}
         onClick={addColumnModal.onOpen}
       >
         <PlusCircleIcon size={19} />
-        Add New Column
+        Add Column
       </Button>
       <DialogWrapper
         isModalOpen={addColumnModal.isOpen}

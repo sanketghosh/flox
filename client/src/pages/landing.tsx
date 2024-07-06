@@ -1,40 +1,59 @@
 /* PACKAGES */
-import { MoveRightIcon, SailboatIcon } from "lucide-react";
+import {
+  GithubIcon,
+  MoveLeftIcon,
+  MoveRightIcon,
+  SailboatIcon,
+} from "lucide-react";
 import { useState } from "react";
 
 /* COMPONENTS */
 import LoginForm from "@/components/auth/login-form";
 import RegisterForm from "@/components/auth/register-form";
+import { Button } from "@/components/ui/button";
+import Hero from "@/components/landing/hero";
+import { cn } from "@/lib/utils";
 
 export default function Landing() {
   const [loginCard, setLoginCard] = useState<boolean>(true);
+  const [getStarted, setGetStarted] = useState<boolean>(false);
 
   const handleToggleAuthForm = () => {
     setLoginCard(!loginCard);
   };
 
+  const handleToggleGetStarted = () => {
+    setGetStarted(!getStarted);
+  };
+
   return (
     <main className="h-full w-full">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-12 px-5 py-8 lg:flex-row">
-        <div className="flex flex-col space-y-3 sm:max-w-xl sm:items-center sm:text-center md:max-w-2xl lg:max-w-full lg:flex-1 lg:items-start lg:text-left">
-          <div className="flex items-center gap-1">
-            <SailboatIcon className="size-9" />
-            <p className="text-4xl font-semibold">Flox</p>
-          </div>
-          <h1 className="text-3xl font-semibold capitalize md:text-4xl lg:text-5xl">
-            Collaborate, manage, create in the rapidest way possible.
-          </h1>
-          <p className="text-base text-muted-foreground md:text-lg">
-            Flox is modern kanban style application for project and task
-            management. It makes collaboration and management with your
-            teammates much faster and easier.
-          </p>
-          <div className="flex w-fit select-none items-center gap-1 rounded-full bg-foreground px-5 py-1 text-sm font-medium text-background">
-            <p>It's easy to get started</p>
-            <MoveRightIcon size={18} />
-          </div>
-        </div>
-        <div className="lg:flex-1">
+        {
+          <Hero
+            onClickGetStarted={handleToggleGetStarted}
+            getStarted={getStarted}
+          />
+        }
+        <div
+          className={cn(
+            "lg:flex-1",
+            getStarted && "flex flex-col items-center justify-center",
+          )}
+        >
+          {getStarted && (
+            <div className="flex w-full justify-start md:w-[470px] lg:w-[500px]">
+              <Button
+                className="mb-3 flex items-center gap-1"
+                variant={"ghost"}
+                size={"sm"}
+                onClick={handleToggleGetStarted}
+              >
+                <MoveLeftIcon size={18} />
+                <p>Go Back</p>
+              </Button>
+            </div>
+          )}
           {loginCard && (
             <LoginForm
               isLoginCard={loginCard}
