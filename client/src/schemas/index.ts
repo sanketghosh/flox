@@ -13,7 +13,7 @@ export const ColumnSchema = z.object({
     }),
 });
 
-// add new task schema
+// add new task dialog schema
 export const TaskSchema = z.object({
   taskTitle: z
     .string()
@@ -31,7 +31,7 @@ export const TaskSchema = z.object({
   }),
 });
 
-// register schema
+// register form schema
 export const RegisterSchema = z
   .object({
     firstName: z.string().min(1, {
@@ -53,7 +53,7 @@ export const RegisterSchema = z
     path: ["confirmPassword"],
   });
 
-//  login schema
+//  login form schema
 export const LoginSchema = z.object({
   email: z.string().email({
     message: "A valid email is required.",
@@ -61,4 +61,25 @@ export const LoginSchema = z.object({
   password: z.string().min(6, {
     message: "Your password does not contain 6 characters.",
   }),
+});
+
+// add workspace modal schema
+export const WorkspaceSchema = z.object({
+  emoji: z.string(),
+  workspaceTitle: z
+    .string()
+    .min(1, {
+      message: "Workspace title is a must.",
+    })
+    .max(30, {
+      message: "Not more than 20 characters.",
+    }),
+  workspaceDescription: z
+    .string()
+    .min(10, {
+      message: "Minimum 10 characters needed.",
+    })
+    .max(60, {
+      message: "Not more than 50 characters.",
+    }),
 });
