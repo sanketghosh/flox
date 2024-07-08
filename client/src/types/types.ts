@@ -16,3 +16,10 @@ export type Card = {
 };
 
 export type DropdownBtn = "normal" | "danger";
+
+export type EmployeeRole = "admin" | "editor" | "normal";
+export type Employee = {
+  name: string;
+  email: string;
+  role: EmployeeRole;
+};

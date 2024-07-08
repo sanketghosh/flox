@@ -1,6 +1,7 @@
 import { GithubIcon, MoveRightIcon, SailboatIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import AppLogo from "../logo/app-logo";
 
 type HeroProps = {
   onClickGetStarted: () => void;
@@ -15,11 +16,8 @@ export default function Hero({ onClickGetStarted, getStarted }: HeroProps) {
         getStarted && "hidden",
       )}
     >
-      <div className="flex items-center gap-1">
-        <SailboatIcon className="size-9" />
-        <p className="text-4xl font-semibold">Flox</p>
-      </div>
-      <h1 className="text-3xl font-semibold capitalize text-blue-600 md:text-4xl lg:text-5xl">
+      <AppLogo size={32} className="text-4xl" />
+      <h1 className="text-3xl font-semibold capitalize text-sky-500 md:text-4xl lg:text-5xl">
         Collaborate, manage, create in the rapidest way possible.
       </h1>
       <p className="text-base text-muted-foreground md:text-lg">

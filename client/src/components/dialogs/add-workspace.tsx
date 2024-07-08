@@ -24,7 +24,6 @@ export default function AddWorkspace() {
   const form = useForm<z.infer<typeof WorkspaceSchema>>({
     resolver: zodResolver(WorkspaceSchema),
     defaultValues: {
-      emoji: "",
       workspaceTitle: "",
       workspaceDescription: "",
     },
@@ -58,23 +57,6 @@ export default function AddWorkspace() {
             className="space-y-4"
           >
             <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="workspaceTitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Emoji</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="DevOps Stuff"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="workspaceTitle"

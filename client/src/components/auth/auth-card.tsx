@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "../ui/button";
-import { Sailboat, SailboatIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import AppLogo from "@/components/logo/app-logo";
 
 type AuthCardProps = {
   cardTitle?: string;
@@ -27,9 +27,8 @@ export default function AuthCard({
   return (
     <Card className="w-full rounded-lg shadow-md md:w-[470px] lg:w-[500px]">
       <CardHeader>
-        <CardTitle className="flex items-center gap-1">
-          <SailboatIcon />
-          Flox
+        <CardTitle>
+          <AppLogo size={22} />
         </CardTitle>
         <CardDescription className="text-base">
           {cardDescription}

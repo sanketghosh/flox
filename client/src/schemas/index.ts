@@ -65,14 +65,13 @@ export const LoginSchema = z.object({
 
 // add workspace modal schema
 export const WorkspaceSchema = z.object({
-  emoji: z.string(),
   workspaceTitle: z
     .string()
     .min(1, {
       message: "Workspace title is a must.",
     })
-    .max(30, {
-      message: "Not more than 20 characters.",
+    .max(15, {
+      message: "Not more than 15 characters.",
     }),
   workspaceDescription: z
     .string()
@@ -80,6 +79,31 @@ export const WorkspaceSchema = z.object({
       message: "Minimum 10 characters needed.",
     })
     .max(60, {
-      message: "Not more than 50 characters.",
+      message: "Not more than 60 characters.",
     }),
+});
+
+// add new board
+export const BoardSchema = z.object({
+  boardTitle: z
+    .string()
+    .min(1, {
+      message: "Board title is a must.",
+    })
+    .max(15, {
+      message: "Not more than 15 characters.",
+    }),
+
+  emoji: z.string(),
+});
+
+// edit employee modal
+export const EditEmployee = z.object({
+  remove: z.boolean(),
+  employeeRole: z.string().min(1),
+});
+
+// add new employee modal
+export const AddEmployee = z.object({
+  email: z.string().email(),
 });

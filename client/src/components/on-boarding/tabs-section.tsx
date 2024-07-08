@@ -2,14 +2,19 @@
 import {
   BoltIcon,
   LayoutGridIcon,
-  PlusCircleIcon,
+  UserCogIcon,
+  UserPlusIcon,
   UsersIcon,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
 // COMPONENTS
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
+import Boards from "./tabs-sections/boards";
+import UsersTable from "./tabs-sections/users-table";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import EditEmployeeModal from "../dialogs/edit-employee-modal";
+import AddEmployeeModal from "../dialogs/add-employee-modal";
 
 const TABS_TRIGGERS = [
   {
@@ -49,6 +54,16 @@ const board_cards = [
 ];
 
 export default function TabsSection() {
+  const [selectRow, setSelectRow] = useState<string | number | null>(null);
+
+  function toggleRow(id: string | number | null) {
+    if (selectRow === id) {
+      setSelectRow(null);
+    } else {
+      setSelectRow(id);
+    }
+  }
+
   return (
     <div className="w-full space-y-4 p-3">
       <div className="rounded-md border p-3">
@@ -60,12 +75,13 @@ export default function TabsSection() {
       </div>
 
       <div>
-        <Tabs defaultValue="boards" className="">
+        <Tabs defaultValue="boards" className="space-y-4">
           <TabsList className="grid w-full grid-cols-3 lg:w-1/2">
             {TABS_TRIGGERS.map((item) => (
               <TabsTrigger
                 value={item.label}
                 className="flex items-center gap-2 capitalize"
+                key={item.label}
               >
                 {item.icon}
                 {item.label}
@@ -73,29 +89,24 @@ export default function TabsSection() {
             ))}
           </TabsList>
           <TabsContent value="boards" className="w-full">
-            <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {board_cards.map((item, idx) => (
-                <Card
-                  key={idx}
-                  className="cursor-pointer select-none space-y-2 bg-secondary/30 px-3 py-4 text-center"
-                >
-                  <span className="text-4xl">😡</span>
-                  <Link
-                    to={"/"}
-                    className="flex items-center justify-center text-base leading-tight"
-                  >
-                    {item}
-                  </Link>
-                </Card>
-              ))}
-              <div>
-                <PlusCircleIcon />
-                Add Card
-              </div>
-            </div>
+            <Boards board_cards={board_cards} />
           </TabsContent>
-          <TabsContent value="members" className="w-full">
-            <div>Tab content</div>
+          <TabsContent value="members" className="w-full space-y-4">
+            <p className="text-muted-foreground">
+              Instructions: This table contains, data of employees who can
+              access the boards of this workspace. If you want to remove or
+              change the role of an employee just click on the row and click{" "}
+              <b>edit employee</b> button and in case you want to add an
+              employee, just click <b>add employee</b> button. Double click on
+              the row to unselect.
+            </p>
+
+            <div className="flex w-full space-x-4">
+              <EditEmployeeModal selectRow={selectRow} />
+              <AddEmployeeModal />
+            </div>
+
+            <UsersTable toggleSelectRow={toggleRow} selectedRow={selectRow} />
           </TabsContent>
           <TabsContent value="settings" className="w-full">
             <div>Tab content</div>
