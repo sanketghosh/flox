@@ -1,2 +1,6 @@
 node_modules
 .env
+
+/prisma/flox.db
+/prisma/flox.db-journal
+/prisma/migrations

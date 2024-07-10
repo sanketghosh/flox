@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  workspaces WorkspaceUser[]
+  boards     Board[]
+  columns    Column[]
+  cards      Card[]
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+
+  users  WorkspaceUser[]
+  boards Board[]
+}
+
+model WorkspaceUser {
+  id   String @id @default(cuid())
+  role String // Use String instead of Enum
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, workspaceId])
+}
+
+model Board {
+  id        String   @id @default(cuid())
+  title     String
+  emoji     String
+  createdAt DateTime @default(now())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+
+  columns Column[]
+  userId  String?
+  User    User?    @relation(fields: [userId], references: [id])
+}
+
+model Column {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId String
+
+  cards  Card[]
+  userId String?
+  User   User?   @relation(fields: [userId], references: [id])
+}
+
+model Card {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+
+  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId String
+
+  userId String?
+  User   User?   @relation(fields: [userId], references: [id])
+}
