@@ -17,7 +17,7 @@ export default function Hero({ onClickGetStarted, getStarted }: HeroProps) {
       )}
     >
       <AppLogo size={32} className="text-4xl" />
-      <h1 className="text-3xl font-semibold capitalize text-sky-500 md:text-4xl lg:text-5xl">
+      <h1 className="text-3xl font-semibold capitalize text-emerald-500 md:text-4xl lg:text-5xl">
         Collaborate, manage, create in the rapidest way possible.
       </h1>
       <p className="text-base text-muted-foreground md:text-lg">

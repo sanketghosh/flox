@@ -11,9 +11,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-12 w-full max-w-7xl items-center justify-between px-3 md:h-14">
         <AppLogo size={22} className="text-2xl" />
 
-        <div></div>
-
-        <Link to={"/"}>
+        <Link to={"/profile"}>
           <Avatar>
             <AvatarFallback>SG</AvatarFallback>
           </Avatar>

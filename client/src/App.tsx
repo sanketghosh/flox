@@ -1,6 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Landing, Kanban, SingleBoardSettings, OnBoarding } from "./pages";
-import UsersLayout from "./layouts/users-layout";
+
+import {
+  Landing,
+  Kanban,
+  SingleBoardSettings,
+  OnBoarding,
+  Profile,
+} from "@/pages";
+import UsersLayout from "@/layouts/users-layout";
 
 export default function App() {
   return (
@@ -28,6 +35,14 @@ export default function App() {
           element={
             <UsersLayout>
               <OnBoarding />
+            </UsersLayout>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <UsersLayout>
+              <Profile />
             </UsersLayout>
           }
         />

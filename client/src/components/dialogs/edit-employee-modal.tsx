@@ -44,7 +44,7 @@ export default function EditEmployeeModal({
       <Button
         size={"sm"}
         disabled={!selectRow}
-        className="flex items-center gap-1"
+        className="flex items-center gap-1 disabled:cursor-not-allowed"
         variant={"secondary"}
         onClick={editEmployeeModal.onOpen}
       >
