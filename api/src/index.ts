@@ -1,7 +1,8 @@
-import express from "express";
+import express, { NextFunction, ErrorRequestHandler } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
+import { authRoutes } from "./routes";
 
 // initialize the app
 const app = express();
@@ -23,6 +24,9 @@ app.use(
     credentials: true,
   })
 );
+
+// routes
+app.use("/api/v1/auth", authRoutes);
 
 // app listener
 app.listen(PORT, () => {
