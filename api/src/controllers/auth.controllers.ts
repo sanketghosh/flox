@@ -56,6 +56,8 @@ export const handleRegisterUser = async (
       },
     });
 
+    // const { password: userPassword, ...userDetails } = newUser;
+
     const jwtToken = jwt.sign(
       { userId: newUser.id },
       process.env.JWT_SECRET_KEY as string,
@@ -67,22 +69,21 @@ export const handleRegisterUser = async (
     // token expiring age (max token age)
     const tokenExpAge = 1000 * 60 * 60 * 24 * 7;
 
-    res.cookie("auth_token", jwtToken, {
-      httpOnly: true,
-      maxAge: tokenExpAge,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    const { password: userPassword, ...userDetails } = newUser;
-
-    res.status(201).json({
-      user: userDetails,
-      message: "SUCCESS! User has been registered.",
-    });
+    res
+      .cookie("auth_token", jwtToken, {
+        httpOnly: true,
+        maxAge: tokenExpAge,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(201)
+      .json({
+        // user: userDetails,
+        message: "SUCCESS! User has been registered.",
+      });
   } catch (error) {
     res.status(500).json({
       message:
-        "ERROR! An error occurred during logout, might be internal server error. Try again later.",
+        "ERROR! An error occurred during register, might be internal server error. Try again later.",
     });
     if (process.env.NODE_ENV !== "production") {
       console.log(error);
@@ -149,7 +150,7 @@ export const handleLoginUser = async (
       {
         id: user.id,
       },
-      process.env.JWT_SECRET_TOKEN as string,
+      process.env.JWT_SECRET_KEY as string,
       {
         expiresIn: tokenExpAge,
       }

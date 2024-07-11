@@ -7,7 +7,9 @@
     "Kanban",
     "lucide",
     "shadcn",
+    "sonner",
     "tailwindcss",
+    "tanstack",
     "zustand"
   ]
 }

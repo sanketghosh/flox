@@ -1,8 +1,16 @@
+// PACKAGES
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import AuthCard from "./auth-card";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import * as loginUser from "@/actions/auth/login-user";
 import { LoginSchema } from "@/schemas";
+
+// COMPONENTS
+import AuthCard from "@/components/auth/auth-card";
 import {
   Form,
   FormControl,
@@ -10,21 +18,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 type LoginFormProps = {
   isLoginCard?: boolean;
   toggleAuthCard?: () => void;
 };
 
-
-
 export default function LoginForm({
   isLoginCard,
   toggleAuthCard,
 }: LoginFormProps) {
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -33,8 +41,23 @@ export default function LoginForm({
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: loginUser.loginUser,
+
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      setInterval(() => {
+        navigate("/");
+      }, 1000);
+    },
+
+    onError: (data) => {
+      toast.error(data.message);
+    },
+  });
+
   const handleFormSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (
