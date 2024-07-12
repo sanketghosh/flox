@@ -47,7 +47,8 @@ const handleRegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0,
     const { firstName, lastName, email, password } = req.body;
     try {
         // hash password
-        const hashPassword = yield bcrypt_1.default.hash(password, 10);
+        const salt = yield bcrypt_1.default.genSalt(10);
+        const hashedPassword = yield bcrypt_1.default.hash(password, salt);
         let usersExists = yield prisma_1.db.user.findUnique({
             where: {
                 email: email,
@@ -64,10 +65,10 @@ const handleRegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                password: hashPassword,
+                password: hashedPassword,
             },
         });
-        // const { password: userPassword, ...userDetails } = newUser;
+        const { password: userPassword } = newUser, userDetails = __rest(newUser, ["password"]);
         const jwtToken = jsonwebtoken_1.default.sign({ userId: newUser.id }, process.env.JWT_SECRET_KEY, {
             expiresIn: "1d",
         });
@@ -81,7 +82,7 @@ const handleRegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0,
         })
             .status(201)
             .json({
-            // user: userDetails,
+            user: userDetails,
             message: "SUCCESS! User has been registered.",
         });
     }

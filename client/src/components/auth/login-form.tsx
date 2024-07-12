@@ -47,7 +47,7 @@ export default function LoginForm({
     onSuccess: async (data) => {
       toast.success(data.message);
       setInterval(() => {
-        navigate("/");
+        navigate("/on-boarding");
       }, 1000);
     },
 

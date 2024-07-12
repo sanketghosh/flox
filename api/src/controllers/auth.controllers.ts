@@ -32,7 +32,8 @@ export const handleRegisterUser = async (
 
   try {
     // hash password
-    const hashPassword = await bcrypt.hash(password, 10);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     let usersExists = await db.user.findUnique({
       where: {
@@ -52,11 +53,11 @@ export const handleRegisterUser = async (
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: hashPassword,
+        password: hashedPassword,
       },
     });
 
-    // const { password: userPassword, ...userDetails } = newUser;
+    const { password: userPassword, ...userDetails } = newUser;
 
     const jwtToken = jwt.sign(
       { userId: newUser.id },
@@ -77,7 +78,7 @@ export const handleRegisterUser = async (
       })
       .status(201)
       .json({
-        // user: userDetails,
+        user: userDetails,
         message: "SUCCESS! User has been registered.",
       });
   } catch (error) {

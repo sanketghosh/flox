@@ -51,7 +51,7 @@ export default function RegisterForm({
       localStorage.setItem("user_details", JSON.stringify(data.user));
       toast.success(data.message);
       setInterval(() => {
-        navigate("/");
+        navigate("/on-boarding");
       }, 1000);
     },
 

@@ -9,7 +9,7 @@ export const registerUser = async (
     method: "POST",
     credentials: "include",
     headers: {
-      "Content-Type": "application/type",
+      "Content-Type": "application/json",
     },
 
     body: JSON.stringify(formData),
