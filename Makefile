@@ -1,15 +1,15 @@
-all: client-install api-install
+npm: npm-client-install npm-api-install
+pnpm: pnpm-client-install pnpm-api-install
 
-client-install:
+npm-client-install:
 	cd client && npm install
 
-api-install:
+npm-api-install:
 	cd api && npm install
 
+pnpm-client-install:
+	cd client && pnpm install
 
+pnpm-api-install:
+	cd api && pnpm install
 
-client-run:
-	cd client && npm run dev
-
-api-run:
-	cd api && npm run dev

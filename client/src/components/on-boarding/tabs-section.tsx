@@ -1,6 +1,8 @@
 // PACKAGES
+import { useState } from "react";
 import {
   BoltIcon,
+  BriefcaseIcon,
   LayoutGridIcon,
   UserCogIcon,
   UserPlusIcon,
@@ -9,12 +11,11 @@ import {
 
 // COMPONENTS
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Boards from "./tabs-sections/boards";
-import UsersTable from "./tabs-sections/users-table";
-import { useState } from "react";
-import { Button } from "../ui/button";
-import EditEmployeeModal from "../dialogs/edit-employee-modal";
-import AddEmployeeModal from "../dialogs/add-employee-modal";
+import Boards from "@/components/on-boarding/tabs-sections/boards";
+import UsersTable from "@/components/on-boarding/tabs-sections/users-table";
+import EditEmployeeModal from "@/components/dialogs/edit-employee-modal";
+import AddEmployeeModal from "@/components/dialogs/add-employee-modal";
+import MobileWorkspace from "@/components/sidebars/mobile-workspace";
 
 const TABS_TRIGGERS = [
   {
@@ -32,25 +33,25 @@ const TABS_TRIGGERS = [
 ];
 
 const board_cards = [
-  "ABC Project Workspace and others",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
-  "ABC Workspace",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
+  "ABC Project Board and others",
 ];
 
 export default function TabsSection() {
@@ -73,6 +74,8 @@ export default function TabsSection() {
           goal.
         </p>
       </div>
+
+      <MobileWorkspace />
 
       <div>
         <Tabs defaultValue="boards" className="space-y-4">
