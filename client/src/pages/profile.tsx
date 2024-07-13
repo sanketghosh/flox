@@ -10,8 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetUserDataFromLocalStorage } from "@/hooks/auth-hooks/use-get-user-data-from-local-storage";
 
 export default function Profile() {
+  const data = useGetUserDataFromLocalStorage();
+
   return (
     <main>
       <div className="flex flex-col space-y-5 py-3">
@@ -20,7 +23,7 @@ export default function Profile() {
             <img src="./hero.png" alt="" className="size-full" />
           </div>
           <h1 className="text-xl font-semibold md:text-2xl lg:text-3xl">
-            Jackson Aaron Taylor
+            {`${data.firstName} ${data.lastName}`}
           </h1>
           <div className="flex items-center gap-3">
             <Button size={"sm"} variant={"destructive"}>
@@ -61,7 +64,7 @@ export default function Profile() {
                       <Label htmlFor="change_name">Enter new name here.</Label>
                       <Input
                         id="change_name"
-                        placeholder="Jackson Aaron Taylor"
+                        placeholder={`${data.firstName} ${data.lastName}`}
                       />
                     </div>
                     <Button className="w-full">Apply Change</Button>
@@ -82,7 +85,7 @@ export default function Profile() {
                   <form action="" className="space-y-5">
                     <div className="space-y-2">
                       <Label htmlFor="change_name">Enter new email here.</Label>
-                      <Input id="change_name" placeholder="jackaart@mail.com" />
+                      <Input id="change_name" placeholder={data.email} />
                     </div>
                     <Button className="w-full">Apply Change</Button>
                   </form>

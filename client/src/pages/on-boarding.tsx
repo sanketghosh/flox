@@ -7,7 +7,7 @@ export default function OnBoarding() {
   const [orgs, setOrgs] = useState<string[]>([]);
 
   return (
-    <div className="flex w-full lg:gap-3">
+    <div className="relative flex w-full lg:gap-3">
       <OnBoardingSidebar />
       <TabsSection />
     </div>

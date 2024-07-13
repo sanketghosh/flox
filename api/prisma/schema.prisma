@@ -22,6 +22,8 @@ model User {
   boards     Board[]
   columns    Column[]
   cards      Card[]
+
+  @@map("user")
 }
 
 model Workspace {
@@ -32,6 +34,8 @@ model Workspace {
 
   users  WorkspaceUser[]
   boards Board[]
+
+  @@map("workspace")
 }
 
 model WorkspaceUser {
@@ -47,6 +51,7 @@ model WorkspaceUser {
   createdAt DateTime @default(now())
 
   @@unique([userId, workspaceId])
+  @@map("workspace_user")
 }
 
 model Board {
@@ -60,12 +65,15 @@ model Board {
 
   columns Column[]
   userId  String?
-  User    User?    @relation(fields: [userId], references: [id])
+  user    User?    @relation(fields: [userId], references: [id])
+
+  @@map("board")
 }
 
 model Column {
   id        String   @id @default(cuid())
   title     String
+  order     Int
   createdAt DateTime @default(now())
 
   board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
@@ -73,18 +81,23 @@ model Column {
 
   cards  Card[]
   userId String?
-  User   User?   @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@map("column")
 }
 
 model Card {
   id          String   @id @default(cuid())
   title       String
   description String
+  order       Int
   createdAt   DateTime @default(now())
 
   column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
   columnId String
 
   userId String?
-  User   User?   @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@map("card")
 }

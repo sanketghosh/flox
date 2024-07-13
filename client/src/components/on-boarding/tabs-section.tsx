@@ -112,7 +112,7 @@ export default function TabsSection() {
             <UsersTable toggleSelectRow={toggleRow} selectedRow={selectRow} />
           </TabsContent>
           <TabsContent value="settings" className="w-full">
-            <div>Tab content</div>
+            <div>Working on settings</div>
           </TabsContent>
         </Tabs>
       </div>

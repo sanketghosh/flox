@@ -42,7 +42,7 @@ export default function UsersTable({
             <TableCell>{employee.email}</TableCell>
             <TableCell
               className={cn(
-                "text-right font-medium",
+                "text-right font-medium capitalize",
                 employee.role === "admin" && "text-rose-500",
                 employee.role === "editor" && "text-yellow-500",
               )}
