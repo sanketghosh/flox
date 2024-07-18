@@ -1,7 +1,10 @@
-import { GithubIcon, MoveRightIcon, SailboatIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// PACKAGES
+import { GithubIcon, MoveRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import AppLogo from "../logo/app-logo";
+
+// COMPONENTS
+import AppLogo from "@/components/logo/app-logo";
+import { Button } from "@/components/ui/button";
 
 type HeroProps = {
   onClickGetStarted: () => void;
@@ -17,7 +20,7 @@ export default function Hero({ onClickGetStarted, getStarted }: HeroProps) {
       )}
     >
       <AppLogo size={32} className="text-4xl" />
-      <h1 className="text-3xl font-semibold capitalize text-emerald-500 md:text-4xl lg:text-5xl">
+      <h1 className="text-3xl font-semibold capitalize text-teal-500 md:text-4xl lg:text-5xl">
         Collaborate, manage, create in the rapidest way possible.
       </h1>
       <p className="text-base text-muted-foreground md:text-lg">

@@ -26,7 +26,7 @@ import { User } from "@prisma/client";
 export const handleRegisterUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { firstName, lastName, email, password } = req.body;
 
@@ -64,7 +64,7 @@ export const handleRegisterUser = async (
       process.env.JWT_SECRET_KEY as string,
       {
         expiresIn: "1d",
-      }
+      },
     );
 
     // token expiring age (max token age)
@@ -110,7 +110,7 @@ export const handleRegisterUser = async (
 export const handleLoginUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { email, password } = req.body;
 
@@ -154,7 +154,7 @@ export const handleLoginUser = async (
       process.env.JWT_SECRET_KEY as string,
       {
         expiresIn: tokenExpAge,
-      }
+      },
     );
 
     // login data we are sending back
@@ -200,7 +200,7 @@ export const handleLoginUser = async (
 export const handleLogoutUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     res.clearCookie("auth_token");

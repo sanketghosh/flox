@@ -50,9 +50,7 @@ export default function RegisterForm({
     onSuccess: async (data) => {
       localStorage.setItem("user_details", JSON.stringify(data.user));
       toast.success(data.message);
-      setInterval(() => {
-        navigate("/on-boarding");
-      }, 1000);
+      navigate("/on-boarding");
     },
 
     onError: async (error: Error) => {

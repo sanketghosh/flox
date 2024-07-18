@@ -76,3 +76,7 @@
     @apply bg-background font-instrument_mono text-foreground selection:bg-foreground selection:text-background;
   }
 }
+
+::-webkit-scrollbar {
+  @apply w-0;
+}

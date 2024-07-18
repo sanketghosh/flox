@@ -1,3 +1,3 @@
-import { errorHandler } from "./error";
+import { verifToken } from "./verify-token";
 
-export { errorHandler };
+export { verifToken };

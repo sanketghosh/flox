@@ -1,5 +1,7 @@
+// PACKAGES
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// COMPONENTS
 import {
   Landing,
   Kanban,
