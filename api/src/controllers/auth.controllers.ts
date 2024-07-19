@@ -57,8 +57,6 @@ export const handleRegisterUser = async (
       },
     });
 
-    const { password: userPassword, ...userDetails } = newUser;
-
     const jwtToken = jwt.sign(
       { userId: newUser.id },
       process.env.JWT_SECRET_KEY as string,
@@ -70,6 +68,7 @@ export const handleRegisterUser = async (
     // token expiring age (max token age)
     const tokenExpAge = 1000 * 60 * 60 * 24 * 7;
 
+    const { password: userPassword, ...userDetails } = newUser;
     res
       .cookie("auth_token", jwtToken, {
         httpOnly: true,

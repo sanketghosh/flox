@@ -2,7 +2,7 @@ import express, { NextFunction, ErrorRequestHandler } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-import { authRoutes } from "./routes";
+import { authRoutes, workspaceRoutes } from "./routes";
 
 // initialize the app
 const app = express();
@@ -18,11 +18,12 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
-  })
+  }),
 );
 
 // routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/workspace", workspaceRoutes);
 
 // app listener
 app.listen(PORT, () => {

@@ -11,10 +11,10 @@ declare global {
 }
 
 export const verifToken = (req: Request, res: Response, next: NextFunction) => {
-  const authToken = req.cookies["auth_token"];
+  const authToken = req.cookies.auth_token;
 
   if (!authToken) {
-    return res.status(401).json({
+    res.status(401).json({
       message: "Not authenticated or user not found.",
     });
   }

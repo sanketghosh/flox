@@ -68,12 +68,12 @@ const handleRegisterUser = (req, res, next) => __awaiter(void 0, void 0, void 0,
                 password: hashedPassword,
             },
         });
-        const { password: userPassword } = newUser, userDetails = __rest(newUser, ["password"]);
         const jwtToken = jsonwebtoken_1.default.sign({ userId: newUser.id }, process.env.JWT_SECRET_KEY, {
             expiresIn: "1d",
         });
         // token expiring age (max token age)
         const tokenExpAge = 1000 * 60 * 60 * 24 * 7;
+        const { password: userPassword } = newUser, userDetails = __rest(newUser, ["password"]);
         res
             .cookie("auth_token", jwtToken, {
             httpOnly: true,

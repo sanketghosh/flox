@@ -7,9 +7,9 @@ exports.verifToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const verifToken = (req, res, next) => {
-    const authToken = req.cookies["auth_token"];
+    const authToken = req.cookies.auth_token;
     if (!authToken) {
-        return res.status(401).json({
+        res.status(401).json({
             message: "Not authenticated or user not found.",
         });
     }

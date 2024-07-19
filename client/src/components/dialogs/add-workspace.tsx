@@ -19,6 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
+import * as addWorkspace from "@/actions/workspace/add-workspace";
+import { toast } from "sonner";
 
 export default function AddWorkspace() {
   const form = useForm<z.infer<typeof WorkspaceSchema>>({
@@ -29,8 +32,20 @@ export default function AddWorkspace() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: addWorkspace.addWorkspace,
+
+    onSuccess: async (data) => {
+      toast.success(data.message);
+    },
+
+    onError: (data) => {
+      toast.error(data.message);
+    },
+  });
+
   const handleFormSubmit = (values: z.infer<typeof WorkspaceSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   const addWorkspaceModal = useAddWorkspaceModal();

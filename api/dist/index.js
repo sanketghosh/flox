@@ -22,6 +22,7 @@ app.use((0, cors_1.default)({
 }));
 // routes
 app.use("/api/v1/auth", routes_1.authRoutes);
+app.use("/api/v1/workspace", routes_1.workspaceRoutes);
 // app listener
 app.listen(PORT, () => {
     console.log(`App server is running on http://localhost:${PORT}`);

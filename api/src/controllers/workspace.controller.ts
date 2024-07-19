@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { db } from "../lib/prisma";
 
 /**
  * Creates a new workspace
@@ -15,18 +16,37 @@ import { Request, Response, NextFunction } from "express";
  * @param {NextFunction} next - The next middleware function
  */
 
-export const handleCreateWorkspace = (
+export const handleCreateWorkspace = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const { workspaceTitle, workspaceDescription } = req.body;
+  const userId = req.id;
 
   try {
+    if (!userId) {
+      res.status(401).json({
+        message:
+          "Unauthorized, user does not exist probably, if you are not logged in or registered do login or create an account.",
+      });
+    }
+
+    const newWorkspace = await db.workspace.create({
+      data: {
+        title: workspaceTitle,
+        description: workspaceDescription,
+      },
+    });
+
+    res.status(201).json({
+      workspaceData: newWorkspace,
+      message: "SUCCESS! New workspace has been created.",
+    });
   } catch (error) {
     res.status(500).json({
       message:
-        "ERROR! An error occurred during register, might be internal server error. Try again later.",
+        "ERROR! An error occurred during workspace creation, might be internal server error. Try again later.",
     });
     if (process.env.NODE_ENV !== "production") {
       console.log(error);
